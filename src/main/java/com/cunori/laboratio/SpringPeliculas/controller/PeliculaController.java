@@ -12,23 +12,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
-import  org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.cunori.laboratio.SpringPeliculas.service.PeliculaService;
 import com.cunori.laboratio.SpringPeliculas.model.Pelicula;
-import  java.util.*;
-
-
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/peliculas")
 @CrossOrigin(origins = "*")
-public  class PeliculaController {
+public class PeliculaController {
     @Autowired
     private PeliculaService peliculaService;
-    
+
     @GetMapping
-    public ResponseEntity<List<Pelicula>> findPaginated(@RequestParam int page, @RequestParam int size){
+    public ResponseEntity<List<Pelicula>> findPaginated(@RequestParam int page, @RequestParam int size) {
         List<Pelicula> content = peliculaService.findAllPaginated(page, size);
         return ResponseEntity.ok(content);
     }
@@ -85,7 +83,3 @@ public  class PeliculaController {
     }
 
 }
-
-
-
-

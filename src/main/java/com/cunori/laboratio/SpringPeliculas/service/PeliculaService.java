@@ -17,8 +17,10 @@ public class PeliculaService {
     }
 
     public List<Pelicula> findAllPaginated(int page, int size) {
-        if (page < 0) page = 0;
-        if (size < 1) size = 10;
+        if (page < 0)
+            page = 0;
+        if (size < 1)
+            size = 10;
         int offset = page * size;
         return peliculaDAO.findAllPaginated(offset, size);
     }
