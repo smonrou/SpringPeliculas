@@ -7,7 +7,6 @@ import com.cunori.laboratio.SpringPeliculas.dao.PeliculaDAO;
 import com.cunori.laboratio.SpringPeliculas.model.Pelicula;
 import java.util.List;
 
-
 @Service
 public class PeliculaService {
     @Autowired
@@ -17,11 +16,17 @@ public class PeliculaService {
         return peliculaDAO.findAll();
     }
 
-    public List<Pelicula> findAllPaginated(int offset, int limit) {
-        return peliculaDAO.findAllPaginated(offset, limit);
+    public List<Pelicula> findAllPaginated(int page, int size) {
+        if (page < 0) page = 0;
+        if (size < 1) size = 10;
+        int offset = page * size;
+        return peliculaDAO.findAllPaginated(offset, size);
     }
 
     public List<Pelicula> buscarPorTitulo(String nombre) {
+        if (nombre == null || nombre.isBlank()) {
+            return findAll();
+        }
         return peliculaDAO.buscarPorTitulo(nombre);
     }
 
@@ -30,7 +35,11 @@ public class PeliculaService {
     }
 
     public Pelicula findById(Integer id) {
-        return peliculaDAO.findById(id).orElseThrow(() -> new RuntimeException("No se encontró la pelicula con el id: " + id));
+        if (id == null) {
+            throw new RuntimeException("El id de la pelicula es requerido");
+        }
+        return peliculaDAO.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró la pelicula con el id: " + id));
     }
 
     public Boolean save(Pelicula pelicula) {
@@ -63,7 +72,9 @@ public class PeliculaService {
     }
 
     public void deleteById(Integer id) {
+        if (id == null) {
+            throw new RuntimeException("El id de la pelicula es requerido");
+        }
         peliculaDAO.deleteById(id);
     }
 }
-
