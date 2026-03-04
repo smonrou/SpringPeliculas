@@ -23,11 +23,11 @@ public class PeliculaService {
         return peliculaDAO.findAllPaginated(offset, size);
     }
 
-    public List<Pelicula> buscarPorTitulo(String nombre) {
+    public List<Pelicula> findByTitle(String nombre) {
         if (nombre == null || nombre.isBlank()) {
             return findAll();
         }
-        return peliculaDAO.buscarPorTitulo(nombre);
+        return peliculaDAO.findByTitle(nombre);
     }
 
     public long count() {

@@ -49,7 +49,7 @@ public class PeliculaDAO {
         return jdbcTemplate.query(sql, rowMapper, limit, offset);
     }
 
-    public List<Pelicula> buscarPorTitulo(String nombre) {
+    public List<Pelicula> findByTitle(String nombre) {
         if (nombre == null || nombre.isBlank()) {
             return findAll();
         }
