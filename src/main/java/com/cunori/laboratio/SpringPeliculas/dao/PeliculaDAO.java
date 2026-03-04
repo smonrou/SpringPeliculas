@@ -2,8 +2,6 @@ package com.cunori.laboratio.SpringPeliculas.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.cunori.laboratio.SpringPeliculas.model.Pelicula;
@@ -11,13 +9,10 @@ import com.cunori.laboratio.SpringPeliculas.model.Pelicula;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 
 @Repository
 public class PeliculaDAO {
@@ -87,30 +82,22 @@ public class PeliculaDAO {
         }
     }
 
-    public Pelicula save(Pelicula pelicula) {
+    public Boolean save(Pelicula pelicula) {
         String sql = "INSERT INTO " + TABLE + " (" + COLUMNS + ") VALUES (?, ?, ?, ?, ?, ?)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, pelicula.getTitulo());
-            ps.setString(2, pelicula.getDirector());
-            ps.setObject(3, pelicula.getAnioEstreno());
-            ps.setString(4, pelicula.getGenero());
-            ps.setBigDecimal(5, pelicula.getDuracion());
-            ps.setObject(6, pelicula.getCalificacion());
-            return ps;
-        }, keyHolder);
-        Number key = keyHolder.getKey();
-        if (key != null) {
-            pelicula.setId(key.intValue());
-        }
-        return pelicula;
+        int rows = jdbcTemplate.update(sql,
+                pelicula.getTitulo(),
+                pelicula.getDirector(),
+                pelicula.getAnioEstreno(),
+                pelicula.getGenero(),
+                pelicula.getDuracion(),
+                pelicula.getCalificacion());
+        return rows > 0;
     }
 
-    public int update(Pelicula pelicula) {
+    public boolean update(Pelicula pelicula) {
         String sql = "UPDATE " + TABLE
                 + " SET titulo = ?, director = ?, anio_estreno = ?, genero = ?, duracion = ?, calificacion = ? WHERE id = ?";
-        return jdbcTemplate.update(sql,
+        int rows = jdbcTemplate.update(sql,
                 pelicula.getTitulo(),
                 pelicula.getDirector(),
                 pelicula.getAnioEstreno(),
@@ -118,6 +105,7 @@ public class PeliculaDAO {
                 pelicula.getDuracion(),
                 pelicula.getCalificacion(),
                 pelicula.getId());
+        return rows > 0;
     }
 
     public int deleteById(Integer id) {
