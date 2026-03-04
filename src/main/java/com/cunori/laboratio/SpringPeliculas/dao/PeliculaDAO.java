@@ -1,11 +1,13 @@
 package com.cunori.laboratio.SpringPeliculas.dao;
 
-import com.cunori.laboratio.SpringPeliculas.service.Pelicula;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import com.cunori.laboratio.SpringPeliculas.model.Pelicula;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
