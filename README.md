@@ -6,4 +6,7 @@
 # Video
 ### 
 
+## Recordatorio
+Recodar ir a aplication.properties y **Cambiar el puerto, usuario y contraseña.** 
+
 ### Fecha de Entrega: 6 de marzo de 2026
