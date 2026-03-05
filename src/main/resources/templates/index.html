@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Películas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        film: { 900: '#0f0f14', 800: '#1a1a24', 700: '#252532', 600: '#2d2d3a', gold: '#d4af37' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .card-hover {
+            transition: all 0.3s;
+        }
+        .card-hover:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), 0 0 0 1px rgba(212, 175, 55, 0.1);
+        }
+        .poster-placeholder {
+            background: linear-gradient(to bottom right, #252532, #1a1a24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(212, 175, 55, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-film-900 text-gray-100 font-sans min-h-screen antialiased">
+    <header class="border-b border-film-600/50 bg-film-800/80 backdrop-blur-sm sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-film-gold">
+                Catálogo Digital
+            </h1>
+            <p class="text-film-gold/70 text-sm mt-1" th:if="${peliculas != null}" th:text="|${#lists.size(peliculas)} películas|">N películas</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div th:if="${peliculas == null || #lists.isEmpty(peliculas)}" class="text-center py-16 text-film-gold/60">
+            <p class="text-lg">No hay películas en el catálogo.</p>
+        </div>
+
+        <div th:if="${peliculas != null && !#lists.isEmpty(peliculas)}"
+             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <article th:each="pelicula : ${peliculas}"
+                     class="rounded-xl overflow-hidden bg-film-800 border border-film-600/40 shadow-lg card-hover">
+                <div class="aspect-[2/3] min-h-[280px] relative overflow-hidden">
+                    <img th:if="${pelicula.imagen != null && !pelicula.imagen.isEmpty()}"
+                         th:src="${pelicula.imagen}"
+                         th:alt="${pelicula.titulo}"
+                         class="w-full h-full object-cover"
+                         loading="lazy"
+                         onerror="this.style.display='none'; var n=this.nextElementSibling; if(n) n.classList.remove('hidden');" />
+                    <div class="poster-placeholder w-full h-full"
+                         th:classappend="${pelicula.imagen != null && !pelicula.imagen.isEmpty()} ? 'hidden' : ''">
+                        <span class="text-4xl">🎬</span>
+                    </div>
+                </div>
+                <div class="p-4 space-y-2">
+                    <h2 class="font-semibold text-lg text-amber-50 line-clamp-2" th:text="${pelicula.titulo}">Título</h2>
+                    <p class="text-sm text-gray-400">
+                        <span class="text-film-gold/80">Director:</span>
+                        <span th:text="${pelicula.director}">Director</span>
+                    </p>
+                    <div class="flex flex-wrap gap-x-3 gap-y-1 text-sm text-gray-400">
+                        <span th:if="${pelicula.anioEstreno != null}">
+                            <span class="text-film-gold/80">Año</span>
+                            <span th:text="${pelicula.anioEstreno}">—</span>
+                        </span>
+                        <span th:if="${pelicula.genero != null && !pelicula.genero.isEmpty()}">
+                            <span class="text-film-gold/80">Género</span>
+                            <span th:text="${pelicula.genero}">—</span>
+                        </span>
+                    </div>
+                    <div class="flex flex-wrap gap-x-3 gap-y-1 text-sm text-gray-400">
+                        <span th:if="${pelicula.duracion != null}">
+                            <span class="text-film-gold/80">Duración</span>
+                            <span th:text="|${pelicula.duracion} min|">—</span>
+                        </span>
+                        <span th:if="${pelicula.calificacion != null}">
+                            <span class="text-film-gold/80">★</span>
+                            <span th:text="${pelicula.calificacion}">—</span>
+                        </span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="border-t border-film-600/40 mt-12 py-4 text-center text-sm text-gray-500">
+        Catálogo Digital · Spring Boot + Thymeleaf + Tailwind CSS
+    </footer>
+
+</body>
+</html>
