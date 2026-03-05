@@ -23,6 +23,8 @@ funcional, solo para pegar en Thunder Client.
 
 ## Video
 
+<https://youtu.be/c921vG8atZI>
+
 ## Recordatorio
 
 Script SQL se encuentra en **src\main\resources\SQL\dbPelicula.sql**.
