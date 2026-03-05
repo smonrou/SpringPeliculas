@@ -12,12 +12,13 @@ public class Pelicula {
     private String genero;
     private BigDecimal duracion;
     private Integer calificacion;
+    private String imagen;
 
     public Pelicula() {
     }
 
     public Pelicula(Integer id, String titulo, String director, Integer anioEstreno, String genero, BigDecimal duracion,
-            Integer calificacion) {
+            Integer calificacion, String imagen) {
         this.id = id;
         this.titulo = titulo;
         this.director = director;
@@ -25,6 +26,7 @@ public class Pelicula {
         this.genero = genero;
         this.duracion = duracion;
         this.calificacion = calificacion;
+        this.imagen = imagen;
     }
 
     public Integer getId() {
@@ -83,9 +85,17 @@ public class Pelicula {
         this.calificacion = calificacion;
     }
 
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
     public String toString() {
         return "Pelicula [id=" + id + ", titulo=" + titulo + ", director=" + director + ", anioEstreno=" + anioEstreno
-                + ", genero=" + genero + ", duracion=" + duracion + ", calificacion=" + calificacion + "]";
+                + ", genero=" + genero + ", duracion=" + duracion + ", calificacion=" + calificacion + ", imagen=" + imagen + "]";
     }
 
     @Override

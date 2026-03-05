@@ -21,7 +21,7 @@ public class PeliculaDAO {
     private JdbcTemplate jdbcTemplate;
 
     private static final String TABLE = "pelicula";
-    private static final String COLUMNS = "titulo, director, anio_estreno, genero, duracion, calificacion";
+    private static final String COLUMNS = "titulo, director, anio_estreno, genero, duracion, calificacion, imagen";
     private static final String COLUMNS_SELECT = "id, " + COLUMNS;
 
     private static final RowMapper<Pelicula> rowMapper = new RowMapper<Pelicula>() {
@@ -35,6 +35,7 @@ public class PeliculaDAO {
             p.setGenero(rs.getString("genero"));
             p.setDuracion(rs.getBigDecimal("duracion"));
             p.setCalificacion(rs.getObject("calificacion", Integer.class));
+            p.setImagen(rs.getString("imagen"));
             return p;
         }
     };
@@ -83,20 +84,7 @@ public class PeliculaDAO {
     }
 
     public Boolean save(Pelicula pelicula) {
-        String sql = "INSERT INTO " + TABLE + " (" + COLUMNS + ") VALUES (?, ?, ?, ?, ?, ?)";
-        int rows = jdbcTemplate.update(sql,
-                pelicula.getTitulo(),
-                pelicula.getDirector(),
-                pelicula.getAnioEstreno(),
-                pelicula.getGenero(),
-                pelicula.getDuracion(),
-                pelicula.getCalificacion());
-        return rows > 0;
-    }
-
-    public boolean update(Pelicula pelicula) {
-        String sql = "UPDATE " + TABLE
-                + " SET titulo = ?, director = ?, anio_estreno = ?, genero = ?, duracion = ?, calificacion = ? WHERE id = ?";
+        String sql = "INSERT INTO " + TABLE + " (" + COLUMNS + ") VALUES (?, ?, ?, ?, ?, ?, ?)";
         int rows = jdbcTemplate.update(sql,
                 pelicula.getTitulo(),
                 pelicula.getDirector(),
@@ -104,6 +92,21 @@ public class PeliculaDAO {
                 pelicula.getGenero(),
                 pelicula.getDuracion(),
                 pelicula.getCalificacion(),
+                pelicula.getImagen());
+        return rows > 0;
+    }
+
+    public boolean update(Pelicula pelicula) {
+        String sql = "UPDATE " + TABLE
+                + " SET titulo = ?, director = ?, anio_estreno = ?, genero = ?, duracion = ?, calificacion = ?, imagen = ? WHERE id = ?";
+        int rows = jdbcTemplate.update(sql,
+                pelicula.getTitulo(),
+                pelicula.getDirector(),
+                pelicula.getAnioEstreno(),
+                pelicula.getGenero(),
+                pelicula.getDuracion(),
+                pelicula.getCalificacion(),
+                pelicula.getImagen(),
                 pelicula.getId());
         return rows > 0;
     }
